@@ -7,7 +7,22 @@ from matrix import *
   # height and depth dimensions.
   # ====================
 def add_box( points, x, y, z, width, height, depth ):
-    pass
+
+    add_edge(points, x, y, z, x+width, y, z)
+    add_edge(points, x+width, y, z, x+width, y-height, z)
+    add_edge(points, x+width, y-height, z, x, y-height, z)
+    add_edge(points, x, y-height, z, x, y, z)
+
+    add_edge(points, x, y, z-depth, x+width, y, z-depth)
+    add_edge(points, x+width, y, z-depth, x+width, y-height, z-depth)
+    add_edge(points, x+width, y-height, z-depth, x, y-height, z-depth)
+    add_edge(points, x, y-height, z-depth, x, y, z-depth)
+
+    add_edge(points, x, y, z, x, y, z-depth)
+    add_edge(points, x+width, y, z, x+width, y, z-depth)
+    add_edge(points, x+width, y-height, z, x+width, y-height, z-depth)
+    add_edge(points, x, y-height, z, x+width, y-height, z-depth)
+
 
   # ====================
   # Generates all the points along the surface
@@ -16,8 +31,13 @@ def add_box( points, x, y, z, width, height, depth ):
   # Returns a matrix of those points
   # ====================
 def generate_sphere( points, cx, cy, cz, r, step ):
-    pass
+    m = new_matrix()
+    add_circle( m, cx, cy, cz, r, step )
 
+    rotStep = 0
+    while rotStep < 2*math.pi:
+        matrix_mult(make_rotY(2*math.pi/rotStep), m)
+        
   # ====================
   # adds all the points for a sphere with center 
   # (cx, cy, cz) and radius r to points
