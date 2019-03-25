@@ -8,6 +8,7 @@ from matrix import *
   # ====================
 def add_box( points, x, y, z, width, height, depth ):
 
+    '''
     add_edge(points, x, y, z, x+width, y, z)
     add_edge(points, x+width, y, z, x+width, y-height, z)
     add_edge(points, x+width, y-height, z, x, y-height, z)
@@ -22,8 +23,24 @@ def add_box( points, x, y, z, width, height, depth ):
     add_edge(points, x+width, y, z, x+width, y, z-depth)
     add_edge(points, x+width, y-height, z, x+width, y-height, z-depth)
     add_edge(points, x, y-height, z, x+width, y-height, z-depth)
+    '''
 
+    add_triangle( points, x, y, z, x+width, y, z, x+width, y-height, z )
+    add_triangle( points, x, y, z, x, y-height, z, x+width, y-height, z )
+    add_triangle( points, x, y, z-depth, x+width, y, z-depth, x+width, y-height, z-depth )
+    add_triangle( points, x, y, z-depth, x, y-height, z-depth, x+width, y-height, z-depth )
 
+    add_triangle( points, x, y, z, x, y, z-depth, x, y-height, z-depth )
+    add_triangle( points, x, y, z, x, y-height, z, x, y-height, z-depth )
+    add_triangle( points, x+width, y, z, x+width, y, z-depth, x+width, y-height, z-depth )
+    add_triangle( points, x+width, y, z, x+width, y-height, z, x+width, y-height, z-depth )
+
+    add_triangle( points, x, y, z, x, y, z-depth, x+width, y, z )
+    add_triangle( points, x+width, y, z-depth, x, y, z-depth, x+width, y, z )
+    add_triangle( points, x, y-height, z, x, y-height, z-depth, x+width, y-height, z )
+    add_triangle( points, x+width, y-height, z-depth, x, y-height, z-depth, x+width, y-height, z )
+    
+    
   # ====================
   # Generates all the points along the surface
   # of a sphere with center (cx, cy, cz) and
@@ -123,7 +140,10 @@ def add_edge( matrix, x0, y0, z0, x1, y1, z1 ):
 def add_point( matrix, x, y, z=0 ):
     matrix.append( [x, y, z, 1] )
     
-
+def add_triangle( matrix, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
+    add_edge( matrix, x0, y0, z0, x1, y1, z1 )
+    add_edge( matrix, x1, y1, z1, x2, y2, z2 )
+    add_edge( matrix, x2, y2, z2, x0, y0, z0 )
 
 
 def draw_line( x0, y0, x1, y1, screen, color ):
